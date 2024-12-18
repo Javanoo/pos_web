@@ -1,0 +1,27 @@
+body {
+    font-size: 16px;
+}
+form {
+    text-align: center;
+    display: block;
+    margin-left: 45%;
+    margin-right: 45%;
+    margin-top: 20%;
+}
+input {
+    text-align: center;
+    padding: .5rem;
+    font-weight: 700;
+    border-style: solid;
+    border-radius: 30px;
+    margin-top: .5rem;
+    border-width: .2rem;
+    color: #666666ff;
+    outline: none;
+}
+input#login {
+    width: 25%;
+    border-style: none;
+    border-radius: 30px;
+}
+
