@@ -24,4 +24,13 @@ input#login {
     border-style: none;
     border-radius: 30px;
 }
+button{
+				width: 79%;
+				height: 2.7rem;
+				border-style: none;
+				border-radius: 30px;	
+				font-weight: 700;
+				background-color: #deaa87ff;
+				color: white;	
+}
 
