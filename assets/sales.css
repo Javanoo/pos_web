@@ -1,0 +1,111 @@
+main{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  height: 500px;
+}
+
+#nav_panel ul{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  list-style-type: none;
+  font-family: outfit;
+  font-size: 1.1rem;
+}
+
+#nav_panel ul li a#active{
+  background-color: #cd9976ee;
+  color: white;
+  border: none;
+  border-radius: 30px;  
+}
+
+#nav_panel ul li a{
+  display: block;
+  padding: 5px 5px 5px 10px;
+  text-decoration: none;
+  margin-bottom: 2px;
+  width: 8rem;
+  color: gray;
+}
+
+#cart_panel{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 70%;
+}
+#cart_panel h4{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  align-self: flex-start;
+  padding-left: 11%;
+  font-family: outfit;
+}
+#cart_panel textarea{
+  height: 70px;
+  width: 70%;
+  font-size: 2rem;
+  color: black;
+  text-align: center;
+  padding: 50px;
+  margin-top: 0;
+  margin-bottom: 2%;
+  resize: none;
+}
+#cart_panel table{
+  width: 78%;
+ //border: 1px solid gray;
+ // border-radius: 30px;
+  text-align: left;
+  color: grey;
+  font-family: outfit;
+}
+
+#cart_panel table th{
+  outline: 1px solid gray;
+  padding: 10px;
+  width: 78%;
+  table-layout: fixed
+}
+
+#cart_panel table tr{
+  display: table;
+  width: 100%;
+  table-layout: fixed
+}
+
+#cart_panel table thead tr{
+  display: table;
+  width: 100%;
+  table-layout: fixed
+}
+
+#cart_panel table td{
+  padding: 1px 1px 1px 10px ;
+  width: 78%;
+}
+
+#cart_panel table caption{
+  text-align: left;
+  margin-left: -8rem;
+  color: black;
+  font-family: outfit;
+}
+
+#cart_panel table tbody{
+  display: block;
+  max-height: 500px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+#left_panel{
+  display: flex;
+  flex-direction: column;
+}

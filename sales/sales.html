@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<title> sales </title>
+		<meta charset="utf-8">
+		<link href="../assets/sales.css" rel="stylesheet"/>
+	</head>
+	<body>
+		<main>
+		  <?php  if(isset($_GET['history']) && $_GET['history'] == 'on'){
+                $status1 = "";
+                $status2 = "active";
+                $status3 = "";
+                $status4 = "";	            
+		         }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
+		            $status1 = "";
+                $status2 = "";
+                $status3 = "active";
+                $status4 = "";
+		         }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
+		            $status1 = "";
+                $status2 = "";
+                $status3 = "";
+                $status4 = "active";
+             }else{
+                $status1 = "active";
+                $status2 = "";
+                $status3 = "";
+                $status4 = "";
+             }
+        ?>
+				<!--Right most panel -->
+				<section id="nav_panel">
+  				<ul>
+						<li><a href="/pos_web/sales" id=<?php echo $status1; ?>>sales</a></li>											
+						<li><a href="/pos_web/sales?history=on" id=<?php echo $status2; ?>>history</a></li>											
+						<li><a href="/pos_web/sales?settings=on" id=<?php echo $status3?>>settings</a></li>											
+						<li class="bottom"><a href="/pos_web/sales?logout=on" id=<?php echo $status4; ?>>logout</a></li>											
+					</ul>						
+				</section>
+
+				<!--Central panel -->						
+				<section id="cart_panel">
+					<h4><?php echo strtoupper(date('l d F'));?></h4>
+					<textarea disabled="true" placeholder=<?php echo number_format($total,2);  ?>></textarea>	
+					<table>
+					 <caption><h4>ITEMS IN CART</h4></caption>
+           <thead>					   	
+					   	<tr>
+							 <th>ID NUMBER</th>									
+							 <th>NAME</th>																			
+							 <th>PRICE</th>																			
+							 <th>QUANTITY</th>																			
+							 <th>AMOUNT</th>																			
+						  </tr>
+						</thead>
+						<tbody>
+					   	<tr>
+					    	<td>801</td>
+					  		<td>alibaba</td>
+					   		<td>K100</td>
+					   	  <td>12</td>
+					   		<td>K1200</td>
+					   	</tr>
+					   	<tr>
+					    	<td>802</td>
+					  		<td>cassio next gen 10th</td>
+					   		<td>K78,500</td>
+					   	  <td>1</td>
+					   		<td>K78,500</td>
+					   	</tr>
+					   	<tr>
+					    	<td>803</td>
+					  		<td>blakes</td>
+					   		<td>K10,000</td>
+					   	  <td>8</td>
+					   		<td>K80,000</td>
+					   	</tr>
+					   	<tr>
+					    	<td>804</td>
+					  		<td>nissan</td>
+					   		<td>K10,000,000</td>
+					   	  <td>1</td>
+					   		<td>K10,000,000</td>
+					   	</tr>
+					   </tbody>															
+					</table>
+				</section>
+						
+				<!--Left most panel -->
+				<section id="left_panel">
+					
+					<section id="search_group">
+					  <select id="search_category">
+			   		  <option>hair</option>
+						  <option>food</option>
+						  <option>oil</option>
+						  <option>utensils</option>							
+					  </select>
+					  <input type="search" name="search_bar" placeholder="search"/>
+						<h4> items found </h4>							
+				  </section>
+				  
+				  <section id="buttons">
+						<form action="?s=" method="POST">
+							<button type="submit" value="paid" name="paid">Paid</button>
+							<button type="submit" value="cancel" name="cancelled">Cancel</button>
+						</form>							
+					</section>
+									
+				</section>	
+			</main>
+	</body>
+<html>
