@@ -22,7 +22,7 @@ function sanitize($text){
 */
 function report_error($error){
 	$error_report = $error->getMessage();
-	header('Location: errors/?error="'."$error_report".'"');
+	header('Location: /pos_web/errors/?error="'."$error_report".'"');
 	exit();
 }
 
