@@ -7,107 +7,106 @@
 	</head>
 	<body>
 		<main>
-		  <?php  if(isset($_GET['history']) && $_GET['history'] == 'on'){
-                $status1 = "";
-                $status2 = "active";
-                $status3 = "";
-                $status4 = "";	            
-		         }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
-		            $status1 = "";
-                $status2 = "";
-                $status3 = "active";
-                $status4 = "";
-		         }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
-		            $status1 = "";
-                $status2 = "";
-                $status3 = "";
-                $status4 = "active";
-             }else{
-                $status1 = "active";
-                $status2 = "";
-                $status3 = "";
-                $status4 = "";
+		  <?php
+		    require '../includes/helpers.inc.php';
+        
+        //establish db connection
+        $con = connecttodb("localhost", "pos_shop", "root", "");		    
+		      
+		    if(isset($_GET['history']) && $_GET['history'] == 'on'){
+          $status1 = "";
+          $status2 = "active";
+          $status3 = "";
+          $status4 = "";
+          include '../includes/nav.inc.php';	            
+		     }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
+		      $status1 = "";
+          $status2 = "";
+          $status3 = "active";
+          $status4 = "";
+          include '../includes/nav.inc.php';
+		     }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
+		      $status1 = "";
+          $status2 = "";
+          $status3 = "";
+          $status4 = "active";
+          include '../includes/nav.inc.php';
+         }else{
+          $status1 = "active";
+          $status2 = "";
+          $status3 = "";
+          $status4 = "";
+          
+          //left panel
+          include '../includes/nav.inc.php';
+          
+          //cancel the current transaction
+          if(isset($_POST["action"]) && $_POST["action"] == "cancel"){
+            cancel_transaction($con);
+          }          
+          
+          //central panel
+          $charge = 0.0;
+          $paid = 0.0;
+          $items_in_cart = get_items_in_cart($con);
+          $change = $paid > $charge ? $paid - $charge : 0.0;
+          include '../includes/sales_cart_panel.inc.php';
+          
+          //right panel
+          include '../includes/sales_left_panel.inc.php';
+         }
+         
+         function cancel_transaction($con){
+            try{
+             $sql = 'DELETE FROM cart';
+             $con->exec($sql);
+            }catch(PDOException $e){
+               report_error($e);            
+            }         
+          }
+         
+         function get_items_in_cart($con){
+          try{
+            global $charge;
+            $sql = "SELECT * FROM cart";
+            $pdo = $con->query($sql);
+            $results = [];
+            while($results = $pdo->fetch())
+            $items[] = array("item_id" => "", "item_name" => "",
+               "item_price" => "", "item_quantity" => "", "item_amount" => "");
+               
+            if(!$results){
+              $items = [];
              }
-        ?>
-				<!--Right most panel -->
-				<section id="nav_panel">
-  				<ul>
-						<li><a href="/pos_web/sales" id=<?php echo $status1; ?>>sales</a></li>											
-						<li><a href="/pos_web/sales?history=on" id=<?php echo $status2; ?>>history</a></li>											
-						<li><a href="/pos_web/sales?settings=on" id=<?php echo $status3?>>settings</a></li>											
-						<li class="bottom"><a href="/pos_web/sales?logout=on" id=<?php echo $status4; ?>>logout</a></li>											
-					</ul>						
-				</section>
-
-				<!--Central panel -->						
-				<section id="cart_panel">
-					<h4><?php echo strtoupper(date('l d F'));?></h4>
-					<textarea disabled="true" placeholder=<?php echo number_format($total,2);  ?>></textarea>	
-					<table>
-					 <caption><h4>ITEMS IN CART</h4></caption>
-           <thead>					   	
-					   	<tr>
-							 <th>ID NUMBER</th>									
-							 <th>NAME</th>																			
-							 <th>PRICE</th>																			
-							 <th>QUANTITY</th>																			
-							 <th>AMOUNT</th>																			
-						  </tr>
-						</thead>
-						<tbody>
-					   	<tr>
-					    	<td>801</td>
-					  		<td>alibaba</td>
-					   		<td>K100</td>
-					   	  <td>12</td>
-					   		<td>K1200</td>
-					   	</tr>
-					   	<tr>
-					    	<td>802</td>
-					  		<td>cassio next gen 10th</td>
-					   		<td>K78,500</td>
-					   	  <td>1</td>
-					   		<td>K78,500</td>
-					   	</tr>
-					   	<tr>
-					    	<td>803</td>
-					  		<td>blakes</td>
-					   		<td>K10,000</td>
-					   	  <td>8</td>
-					   		<td>K80,000</td>
-					   	</tr>
-					   	<tr>
-					    	<td>804</td>
-					  		<td>nissan</td>
-					   		<td>K10,000,000</td>
-					   	  <td>1</td>
-					   		<td>K10,000,000</td>
-					   	</tr>
-					   </tbody>															
-					</table>
-				</section>
-						
-				<!--Left most panel -->
-				<section id="left_panel">
-					
-					<section id="search_group">
-					  <select id="search_category">
-			   		  <option>hair</option>
-						  <option>food</option>
-						  <option>oil</option>
-						  <option>utensils</option>							
-					  </select>
-					  <input type="search" name="search_bar" placeholder="search"/>
-						<h4> items found </h4>							
-				  </section>
-				  
-				  <section id="buttons">
-						<form action="?s=" method="POST">
-							<button type="submit" value="paid" name="paid">Paid</button>
-							<button type="submit" value="cancel" name="cancelled">Cancel</button>
-						</form>							
-					</section>
-									
+              
+            foreach($items as $row){
+              $items[] = array ('item_id' => $row["item_id"], 
+                       'item_name' => $row["item_name"],
+                       'item_price' => $row["item_price"],
+                       'item_quantity' => $row["item_quantity"],
+                       'item_amount' => $row["item_amount"]);
+              $charge += $row["item_amount"];             
+            }
+            
+            return $items;
+          }catch(PDOException $e){
+            report_error($e);
+          }
+          
+          function update_table_value($con, $id, $value){
+            try{
+             $sql = 'UPDATE cart SET item_quantity= :quantity WHERE 
+                      id= :id';
+              $statement = $con->prepare($sql);
+              $statement->bindValue(':quantity', $value);
+              $statement->bindValue(':id', $id);
+              $statement->execute();
+            }catch(PDOException $e){
+               report_error($e);            
+            }
+          }         
+         }
+      ?>						
 				</section>	
 			</main>
 	</body>
