@@ -1,6 +1,7 @@
 body {
     font-size: 16px;
     display: flex;
+    margin: 20rem;
     align-content: center;
     justify-content: center; 
 }
@@ -19,21 +20,64 @@ input {
     border-radius: 30px;
     margin-top: .5rem;
     border-width: .2rem;
-    color: #666666ff;
+    color: black;
     outline: none;
+    background-color: whitesmoke;
+    font-size: 1rem;
 }
-input#login {
-    width: 25%;
-    border-style: none;
-    border-radius: 30px;
+
+input:focus{
+  color: black;
+  background-color: white;
+  border-style: solid;
+  border-color: green;
+ transition-property: background-color, border-color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in-out;
 }
+
+input:hover{
+  color: black;
+  background-color: white;
+  border-style: solid;
+  border-color: green;
+  transition-property: background-color, border-color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in-out;
+}
+
 button{
-				width: 79%;
-				height: 2.7rem;
-				border-style: none;
-				border-radius: 30px;	
-				font-weight: 700;
-				background-color: #deaa87ff;
-				color: white;	
+	 width: 79%;
+	 height: 2.7rem;
+   border-style: none;
+	 border-radius: 30px;	
+	 font-weight: 700;
+	 font-size: 1rem;
+	 background-color: #deaa87ff;
+	 color: white;
+	 align-self: center;
+	 margin-top: 5px;
+	 border-width: .2rem;
+	 outline: none;	
+}
+
+button:hover{
+  color: black;
+  background-color: white;
+  border-style: solid;
+  border-color: green;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+button:focus{
+  color: black;
+  background-color: white;
+  border-style: solid;
+  border-color: green;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
 }
 
