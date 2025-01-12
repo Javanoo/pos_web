@@ -1,4 +1,5 @@
 <?php
+  session_start();
 	//include files
 	require 'includes/helpers.inc.php';
 	$con = connecttodb("localhost", "pos_shop", "root", "");
@@ -14,16 +15,16 @@
 	* if the user isn't logged in and authentication has failed as well,
 	* prompt for user credentials.
 	*/
-	if($password_hash == md5($name.$password)) {
+	if(isset($password_hash)) {
 		//redirect user to the appropriate site
-		redirect_user($con, $name,$password);
+		redirect_loggedin_user($con, $password_hash);
 		exit();	
 	}elseif(((isset($_POST["name"])) && (isset($_POST["password"]))) &&
 			authorise($con, $name, $password)) {
 		//initiate a session and 
 		//redirect user to the appropriate page
-		session_start();
 		$_SESSION["password_hash"] = md5($name.$password);
+		$_SESSION['username'] = sanitize($name);
 		redirect_user($con, $name, $password);
 		exit();
 	}else{
