@@ -5,18 +5,45 @@ echo '
 <section id="right_panel">
 					
   <section id="search_group">
-    <select id="search_category">
-      <option>hair</option>
+    <form action="" method="POST">
+      <select id="search_category">
+      <option>all</option>
       <option>food</option>
-      <option>oil</option>
-      <option>utensils</option>							
+      <option>drinks</option>
+      <option>utensils</option>						
     </select>
-    <input type="search" name="search_bar" placeholder="search"/>
-    <h4> items found </h4>							
+    <input type="search" name="search_bar" id="search_bar" placeholder="search" value=""/>	
+     </form>							
   </section>
+  <h4> ITEMS FOUND </h4>
+  <table>  
+  <thead>					   	
+		 <tr>									
+      <th>NAME</th>																			
+			<th>PRICE</th>																			
+			<th>ADD</th>																																					
+		 </tr>
+		</thead>
+		<tbody>';
+		 if($searched_items != null)
+		  foreach ($searched_items as $item): echo
+ 		  '
+ 		  <form action="" method="POST">
+		  <tr>
+			 <input type="number" name="id" hidden value="'. $item['item_id'].'"></input>
+			 <td>'. $item['item_name'].'</td>
+			 <td>'. $item['item_price'].'</td>
+			 <td><button type="submit" id="edit" name="add" value="add">+</input></td>
+			</tr>
+      </form>			
+			';
+			endforeach; echo
+			'</tbody>															
+	</table>
 				  
   <section id="buttons">
-    <form action="?transact=on" method="POST">
+    <form action="" method="POST">
+      <input type="text" class="amount_prompt" name="amount" placeholder="amount paid">
       <button type="submit" value="paid" name="action"
         id="paid">Pay</button>
       <button type="submit" value="cancel" name="action" 
@@ -25,3 +52,7 @@ echo '
   </section>
 ';
 ?>
+
+<html>
+  
+</html>
