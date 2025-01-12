@@ -12,7 +12,7 @@ body{
 main{
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: stretch;
   height: 500px;
 }
@@ -31,6 +31,7 @@ main{
   padding: 1rem 2rem;
   background-color: white;
   border-radius: 20px;
+  margin-left: -5rem;
 }
 
 #left_panel ul li a#active{
@@ -49,13 +50,22 @@ main{
   color: gray;
 }
 
+#left_panel ul li a:hover{
+  background-color: whitesmoke;
+  border: none;
+  border-radius: 30px; 
+  transition-property: background-color;
+  transition-duration: 0.8s;
+  transition-timing-function: ease-out; 
+}
+
 #cart_panel{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
-  //width: 60%;
+  width: 100%;
    background-color: white;
    margin-left: 1rem;
    margin-right: 1rem;
@@ -83,18 +93,21 @@ main{
   border-radius: 10px;
   border-style: solid;
 }
-#cart_panel table{
-  width: 80%;
-  text-align: left;
+#cart_panel table, #right_panel table{
+  width: 78%;
+  text-align: center;
   color: grey;
   font-family: outfit;
+  border-radius: 20px;
 }
 
-#cart_panel table th{
+#cart_panel table th, #right_panel table th{
   outline: 1px solid gray;
-  padding: 10px;
-  width: 78%;
-  table-layout: fixed
+  padding: 10px 5px;
+  width: 76%;
+  table-layout: fixed;
+  resize: both;
+  overflow: auto;
 }
 
 #cart_panel table tr{
@@ -123,7 +136,7 @@ main{
 
 #cart_panel table tbody{
   display: block;
-  max-height: 500px;
+  max-height: 350px;
   overflow-y: auto;
   width: 100%;
 }
@@ -131,26 +144,40 @@ main{
 #right_panel{
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: flex-start; 
+  align-items: center;
   background-color: white;
-  padding-bottom: 5rem;
+  padding-bottom: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
   padding-left: 1rem;
   margin-bottom: -25rem;
   margin-right: -5rem;
   border-radius: 20px;
+  width: 20rem;
+}
+
+#right_panel #buttons{
+  margin-top: auto;
+}
+
+#buttons form{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 button{
-  width: 20rem;
+  width: 9.685rem;
 	height: 2.5rem;
 	border-style: none;
 	border-radius: 30px;	
 	font-weight: 700;
 	font-size: 1.2rem;
-	margin-bottom: 5px;
+	margin-right: 5px;
 	font-family: outfit;
+  text-align: center;
+  padding-top: 2px 5px;
+  border-width: .2rem;
 }
 
 button#paid:hover{
@@ -164,7 +191,7 @@ button#paid:hover{
 }
 
 button#cancel:hover{
-  color: black;
+  color: red;
   background-color: white;
   border-style: solid;
   border-color: red;
@@ -179,6 +206,97 @@ button#paid{
 }
 
 button#cancel{
-  background-color: #000000; 
+  background-color: #484848; 
   color:white;
+}
+
+#search_bar{
+  width: 200px;
+  height: 40px;
+  border-radius: 40px; 
+  border-style: solid;
+  padding: .5rem 3rem;
+  margin-bottom: 5px;
+  outline-style: none;
+  text-align: center;
+  font-family: outfit;
+  font-size: 1.1rem;
+  background-color: whitesmoke;
+  color: black;
+  border-width: .2rem;
+}
+
+#search_bar:focus{
+  color: black;
+  background-color: white;
+  border-style: solid;
+  border-color: green;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+#search_group{
+  display: flex;
+}
+
+select{
+  width: 105px;  
+  padding: 5px 15px;
+  border-radius: 30px; 
+  border-style: solid;
+  margin-right: 5px;
+  font-family: outfit;
+  font-size: 1rem;
+  list-style-type: none;
+}
+
+#right_panel h4{
+  font-family: outfit;
+  font-size: 1rem;
+  align-self: flex-start;
+  padding-left: 4px;
+}
+
+.amount_prompt{
+  width: 210px;
+  height: 25px;
+  border-radius: 40px; 
+  border-style: solid;
+  padding: .5rem 3rem;
+  margin-bottom: 5px;
+  outline-style: none;
+  text-align: center;
+  font-family: outfit;
+  font-size: 1.1rem;
+   background-color: whitesmoke;
+  color: black;
+  border-width: .2rem;
+}
+
+.amount_prompt:focus, .amount_prompt:hover, #edit:hover{
+  color: black;
+  background-color: white;
+  border-style: solid;
+  border-color: green;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+#edit{
+  width: 120px;
+  height: 40px;
+  border-radius: 40px; 
+  border-style: solid;
+  padding: .5rem 2rem;
+  margin-bottom: 5px;
+  outline-style: none;
+  text-align: center;
+  font-family: outfit;
+  font-size: 1rem;
+  font-weight:normal;
+  background-color: whitesmoke;
+  color: black;
+  border-width: .2rem;
 }
