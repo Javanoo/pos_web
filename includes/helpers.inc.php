@@ -57,7 +57,6 @@ function authorise($con, $name, $password) {
 			return true;
 		}
 		else{
-			echo "false : ".md5($name.$password); 
 			return false;
 		}
 	}catch(PDOException $e){
@@ -76,6 +75,35 @@ function redirect_user($con, $name, $password) {
 		//fetch user's group
 		$sql = 'SELECT groupId FROM clients WHERE name="'.$name.'"
 				 AND password="'.md5($name.$password).'"';
+		$result = $con->query($sql);
+		foreach($result as $record){
+			$groupId = $record["groupId"] == null ? null : $record["groupId"]; 		
+		}
+		
+		//redirect 
+		switch($groupId) {
+			case "admin" : {
+				header('Location: admin/');
+				break;				
+			}
+			case "cashier" : {
+				header('Location: sales/');
+				break;
+			}
+			default:{
+				header('Location: ../pos_web');
+				break;				
+			}
+		}			
+	}catch(PDOException $e){
+		report_error($e);
+	}	
+}
+
+function redirect_loggedin_user($con, $password) {
+	try{
+		//fetch user's group
+		$sql = 'SELECT groupId FROM clients WHERE password="'.$password.'"';
 		$result = $con->query($sql);
 		foreach($result as $record){
 			$groupId = $record["groupId"] == null ? null : $record["groupId"]; 		
