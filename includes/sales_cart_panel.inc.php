@@ -3,8 +3,7 @@
 echo ' 
 <!--Central panel -->						
 <section id="cart_panel">
-  <h3 style="color: #cd9976ee;">'.strtoupper(date('l d F')).
-  ' CASHIER : '.strtoupper($_SESSION["username"]).''.'</h3>
+  <h3 style="color: #cd9976ee;">'.strtoupper(date('l d F')).'</h3>
   <h4>CHARGE</h4>
   <textarea  style="color: green;" disabled="true" placeholder='
   .'MK'.number_format($charge,2).'></textarea>	
@@ -18,7 +17,7 @@ echo '
 	  echo ') ITEMS</h4></caption>
     <thead>					   	
 		 <tr>
-	    <th>ID NUMBER</th>									
+	    <th>ITEM ID</th>									
       <th>NAME</th>																			
 			<th>PRICE</th>																			
 			<th>QUANTITY</th>																			
@@ -34,12 +33,12 @@ echo '
 		   <form action="" method="POST">
 		   <input hidden="true" type="text" name="edited_id" value="'.$item["trans_id"].'">
 			 <td>'. $item["item_id"].'</td>
-			 <td>'. $item['item_name'].'</td>
-			 <td>'. $item['item_price'].'</td>
-			 <td><input type="text" name="quantity" contenteditable="true" value="'.
+			 <td class="td_center">'. $item['item_name'].'</td>
+			 <td class="td_center">'. $item['item_price'].'</td>
+			 <td class="td_center"><input type="text" name="quantity" contenteditable="true" value="'.
 			   $item['item_quantity'].'" 
 			   style="text-align: center; width:50px; border:none; font-family:outfit; font-size:1rem"></input></td>
-			 <td>'. $item['item_amount'].'</td>
+			 <td class="td_center">'. $item['item_amount'].'</td>
 			 <td><button type="submit" id="edit" name="table_action" value="edit">↻</input></td>
 			 <td><button type="submit" id="edit" name="table_action" value="remove">➖</input></td>
 			 </form>

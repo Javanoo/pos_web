@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-		<title> sales </title>
+		<title> sales <?php $room=""; echo $room;?> </title>
 		<meta charset="utf-8">
 		<link href="../assets/sales.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<main>
 		  <?php
-		    session_start();
-		    if($_SESSION['password_hash'] == null) logout();
+		    require_once '../includes/helpers.inc.php';
+		    require_once '../includes/sales_helpers.inc.php';
 		    
-		    require '../includes/helpers.inc.php';
+		    session_start();
+		    if(!isset($_SESSION['password_hash']) && 
+           $_SESSION['password_hash'] == null) logout();
         
         //establish db connection
         $con = connecttodb("localhost", "pos_shop", "root", "");		    
@@ -21,7 +23,23 @@
           $status2 = "active";
           $status3 = "";
           $status4 = "";
-          include '../includes/nav.inc.php';	            
+          include '../includes/nav.inc.php';
+          
+          $dates = get_dates();
+          $cashiers = get_cashiers();
+          
+          
+          $selected = 1;
+          $selected_start_date = 0;
+          $selected_end_date = 0;
+          $selected_cashier = 0;
+          $history = null;
+          if(isset($_POST['search']) && $_POST['search'] == 'on'){
+            $history = get_filtered_history();          
+          }else {
+            $history = get_history();          
+          }
+          include 'history.php';  	            
 		     }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
 		      $status1 = "";
           $status2 = "";
@@ -37,171 +55,71 @@
           $status3 = "";
           $status4 = "";
           
+          $charge = 0.0;
+          $items_in_cart = get_items_in_cart($con);          
+          
           //left panel
-          include '../includes/nav.inc.php';
+          include '../includes/nav.inc.php';          
           
           //cancel the current transaction
           if(isset($_POST["action"]) && $_POST["action"] == "cancel"){
-            cancel_transaction($con);
-          }
-                    
-          //transaction has been paid
-          $paid = 0.0;
-          if(isset($_POST['action']) && $_POST['action'] == "paid"){
-              process_transaction(sanitize($_POST['amount']));          
+            if(cancel_transaction()){
+             $charge = 0.0;
+             $items_in_cart = get_items_in_cart($con);
+            }
           }
           
           //add an item to cart
           if(isset($_POST['add'])){
-            add_to_cart($con, $_POST['id'], 
-              sanitize(1));          
+            if(add_to_cart($con, $_POST['id'], 
+              sanitize(1))){
+               $charge = 0.0;
+               $items_in_cart = get_items_in_cart($con);              
+              }          
           }
           
           //edited
           if(isset($_POST['quantity']) &&
              isset($_POST['table_action']) && $_POST['table_action'] == 'edit'){
-            update_table_value($con, $_POST['edited_id'], sanitize($_POST['quantity']));          
+            if(update_table_value($con, $_POST['edited_id'], sanitize($_POST['quantity']))){
+              $charge = 0.0;
+              $items_in_cart = get_items_in_cart($con);            
+            }          
           }
           
           //remove
-          if(isset($_POST['quantity']) &&
-             isset($_POST['table_action']) && $_POST['table_action'] == 'remove'){
-            remove_table_value($con, $_POST['edited_id']);          
-          }           
+          if(isset($_POST['table_action']) && $_POST['table_action'] == 'remove'){
+            if(remove_table_value($con, $_POST['edited_id'])){
+              $charge = 0.0;
+              $items_in_cart = get_items_in_cart($con);            
+            }          
+          }
+          
+          //transaction has been paid
+          $paid = 0.0;
+          if(isset($_POST['action']) && $_POST['action'] == "paid"){
+              if(process_transaction(sanitize($_POST['amount']))){
+                $items_in_cart = get_items_in_cart($con);
+                $change = $paid > $charge ? $paid - $charge : 0.0;
+                $charge = 0.0;
+              }          
+          }       
           
           //central panel
-          $charge = 0.0;
-          $items_in_cart = get_items_in_cart($con);
-          $searched_items = search_items($con);
-          $change = $paid > $charge ? $paid - $charge : 0.0;
           include '../includes/sales_cart_panel.inc.php';
           
+          
+          $categories = get_categories();
+          $selected = 1;
+          $searched_items = search_items_by_category($selected, null);
+          if(isset($_POST['search_bar']) && $_POST['search_bar'] != ""){
+            $selected = $_POST['category_id'];
+            $searched_items = search_items_by_category($selected, $_POST['search_bar']);
+          }
           //right panel
           include '../includes/sales_left_panel.inc.php';
          }
-         
-         function cancel_transaction($con){
-            try{
-             $sql = 'DELETE FROM cart';
-             $con->exec($sql);
-            }catch(PDOException $e){
-               report_error($e);            
-            }         
-          }
-         
-         function get_items_in_cart($con){
-          try{
-            global $charge;
-            $sql = "SELECT * FROM cart";
-            $pdo = $con->query($sql);  
-            $items = null;
-              
-            foreach($pdo as $row){                            
-              //add new entry
-              $items[] = array (
-                       'trans_id' => $row['trans_id'],
-                       'item_id' => $row["item_id"], 
-                       'item_name' => $row["item_name"],
-                       'item_price' => $row["item_price"],
-                       'item_quantity' => $row["item_quantity"],
-                       'item_amount' => $row["item_amount"]);
-              $charge += $row["item_amount"];             
-            }
-            
-            return $items == null ? null : $items;
-          }catch(PDOException $e){
-            report_error($e);
-          }
-         }
-         
-         function update_table_value($con, $id, $value){
-            try{
-             $sql = 'UPDATE cart SET item_quantity= :quantity WHERE 
-                      trans_id= :id';
-              $statement = $con->prepare($sql);
-              $statement->bindValue(':quantity', $value);
-              $statement->bindValue(':id', $id);
-              $statement->execute();
-            }catch(PDOException $e){
-               report_error($e);            
-            }
-         }
-         
-         function remove_table_value($con, $id){
-            try{
-             $sql = 'DELETE FROM cart WHERE 
-                      trans_id= :id';
-              $statement = $con->prepare($sql);
-              $statement->bindValue(':id', $id);
-              $statement->execute();
-            }catch(PDOException $e){
-               report_error($e);            
-            }
-         }
-          
-         function add_to_cart($con,$id, $quantity){
-            try{
-              //fetch from items table
-              $sql = 'SELECT item_name, item_price FROM items WHERE
-                       item_id="'.$id.'"';            
-              $results = $con->query($sql);
-              
-              $unit_price = 0.0;
-              $item_name = "";
-              while($row = $results->fetch()){
-                $unit_price = $row['item_price'];
-                $item_name = $row['item_name'];              
-              }
-              
-              //add to cart
-              $sql = 'INSERT INTO cart SET item_id= :id, item_name= :name,
-                      item_price= :unit_price, item_quantity= :quantity'; 
-              $statement = $con->prepare($sql);
-              $statement->bindValue(':id', $id);
-              $statement->bindValue(':name', $item_name);
-              $statement->bindValue(':unit_price', $unit_price);
-              $statement->bindValue(':quantity', $quantity);
-              $statement->execute();
-              
-            }catch(PDOException $e){
-              report_error($e);            
-            }          
-         }
-          
-         function search_items($con){
-           try{
-              $sql = "SELECT * FROM items";
-              $pdo = $con->query($sql);  
-              $found_items = null;
-                
-              foreach($pdo as $row){                            
-                //add new entry
-                $found_items[] = array ('item_id' => $row["item_id"], 
-                         'item_name' => $row["item_name"],
-                         'item_price' => $row["item_price"]);            
-              }
-            
-              return $found_items == null ? null : $found_items;
-            }catch(PDOException $e){
-              report_error($e);
-           }   
-         }
-         
-         function process_transaction($amount){
-            global $paid;
-            if($amount > 0.0){
-                $paid = $amount;            
-            }         
-         }
-         
-         function logout(){
-          //unset all variables and head to main page
-          $_SESSION = array();
-          session_destroy();
-          header('Location: ../../pos_web');
-          exit();      
-         }
-      ?>						
+        ?>					
 				</section>	
 			</main>
 	</body>

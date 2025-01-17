@@ -73,11 +73,12 @@ function authorise($con, $name, $password) {
 function redirect_user($con, $name, $password) {
 	try{
 		//fetch user's group
-		$sql = 'SELECT groupId FROM clients WHERE name="'.$name.'"
+		$sql = 'SELECT id, groupId FROM clients WHERE name="'.$name.'"
 				 AND password="'.md5($name.$password).'"';
 		$result = $con->query($sql);
 		foreach($result as $record){
-			$groupId = $record["groupId"] == null ? null : $record["groupId"]; 		
+			$groupId = $record["groupId"] == null ? null : $record["groupId"];
+			$_SESSION['user_id'] = $record["id"]; 		
 		}
 		
 		//redirect 
@@ -106,9 +107,8 @@ function redirect_loggedin_user($con, $password) {
 		$sql = 'SELECT groupId FROM clients WHERE password="'.$password.'"';
 		$result = $con->query($sql);
 		foreach($result as $record){
-			$groupId = $record["groupId"] == null ? null : $record["groupId"]; 		
+			$groupId = $record["groupId"] == null ? null : $record["groupId"]; 
 		}
-		
 		//redirect 
 		switch($groupId) {
 			case "admin" : {

@@ -25,6 +25,7 @@
 		//redirect user to the appropriate page
 		$_SESSION["password_hash"] = md5($name.$password);
 		$_SESSION['username'] = sanitize($name);
+		$_SESSION['user_id'] = 0;
 		redirect_user($con, $name, $password);
 		exit();
 	}else{

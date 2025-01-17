@@ -1,6 +1,6 @@
 body{
   display: flex;
-  justify-content: center; 
+  justify-content: flex-start; 
   align-items: center;
   margin-right: 5rem;
   margin-left: 5rem;
@@ -73,7 +73,7 @@ main{
    border-radius: 20px;
   padding-top: 1rem;
 }
-#cart_panel h3, #cart_panel h4 {
+#cart_panel h3, #cart_panel h4, .history h3, #history_table h4{
   margin-top: 5px;
   margin-bottom: 5px;
   align-self: flex-start;
@@ -93,15 +93,16 @@ main{
   border-radius: 10px;
   border-style: solid;
 }
-#cart_panel table, #right_panel table{
+#cart_panel table, #right_panel table, #history_table table{
   width: 78%;
-  text-align: center;
+  text-align: left;
   color: grey;
   font-family: outfit;
   border-radius: 20px;
 }
 
-#cart_panel table th, #right_panel table th{
+#cart_panel table th, #right_panel table th, #history_table table th{
+  text-align: center;
   outline: 1px solid gray;
   padding: 10px 5px;
   width: 76%;
@@ -110,13 +111,13 @@ main{
   overflow: auto;
 }
 
-#cart_panel table tr{
+#cart_panel table tr, #history_table table tr{
   display: table;
   width: 100%;
   table-layout: fixed
 }
 
-#cart_panel table thead tr{
+#cart_panel table thead tr, #history_table table thead tr{
   display: table;
   width: 100%;
   table-layout: fixed
@@ -127,14 +128,14 @@ main{
   width: 78%;
 }
 
-#cart_panel table caption{
+#cart_panel table caption, #history_table table caption{
   text-align: left;
-  margin-left: -7rem;
+  margin-left: -7.5rem;
   color: black;
   font-family: outfit;
 }
 
-#cart_panel table tbody{
+#cart_panel table tbody, #history_table table tbody{
   display: block;
   max-height: 350px;
   overflow-y: auto;
@@ -185,7 +186,7 @@ button#paid:hover{
   background-color: white;
   border-style: solid;
   border-color: green;
-  transition-property: background-color;
+  transition-property: background-color, color;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
 }
@@ -226,7 +227,7 @@ button#cancel{
   border-width: .2rem;
 }
 
-#search_bar:focus{
+#search_bar:focus, .history #search_bar:focus{
   color: black;
   background-color: white;
   border-style: solid;
@@ -248,7 +249,8 @@ select{
   margin-right: 5px;
   font-family: outfit;
   font-size: 1rem;
-  list-style-type: none;
+  list-style-type: upper-greek;
+  max-height: 200px;
 }
 
 #right_panel h4{
@@ -288,7 +290,7 @@ select{
   width: 120px;
   height: 40px;
   border-radius: 40px; 
-  border-style: solid;
+  border-style: none;
   padding: .5rem 2rem;
   margin-bottom: 5px;
   outline-style: none;
@@ -299,4 +301,108 @@ select{
   background-color: whitesmoke;
   color: black;
   border-width: .2rem;
+}
+
+.td_center{
+  text-align: center;
+}
+
+.history #header, #history_table{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+  background-color: white;
+  margin-left: 1rem;
+  border-radius: 20px;
+  padding: 1rem;
+}
+
+.history h3{
+  padding-top: .5rem;
+  padding-left: .8rem;
+  padding-right: .8rem;
+  padding-bottom: .5rem;
+  border-radius: 30px;
+  background-color: #cd9976ee;
+  color: white;
+  font-family: outfit;
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+.history h3:hover{
+  color: black;
+  background-color: white;
+  border-color: green;
+  transition-property: background-color, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.history button{
+  font-weight: normal;
+  width: 100px;
+  background-color: lavender;
+  color: white;
+}
+
+.history button:hover{
+  color: black;
+  background-color: white;
+  border-style: solid;
+  border-color: green;
+  transition-property: background-color, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+.history select{
+  width: 180px;  
+}
+
+#history_table{
+  display: flex;
+  justify-content: flex-start; 
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  border-radius: 20px ;
+  margin-bottom: -25rem;
+  height: 750px;
+  max-height: 750px;
+}
+
+#history_table table{
+  align-self: center;
+    width: 90%;
+} 
+
+#history_table table thead tr{
+  display: table;
+  width: 100%;
+  table-layout: fixed
+}
+#history_table table tr{
+  display: table;
+  width: 100%;
+  table-layout: fixed
+}
+
+#history_table table tbody{
+  display: block;
+  max-height: 620px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+#history_table_row:hover{
+  background-color: #484848;
+  color: white;
+}
+
+#history_table_row:active{
+  background-color: red;
+  cursor: not-allowed;
 }

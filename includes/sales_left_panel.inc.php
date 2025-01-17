@@ -6,11 +6,13 @@ echo '
 					
   <section id="search_group">
     <form action="" method="POST">
-      <select id="search_category">
-      <option>all</option>
-      <option>food</option>
-      <option>drinks</option>
-      <option>utensils</option>						
+      <select id="search_category" name="category_id">';
+      if($categories != null)
+		  foreach ($categories as $category): echo 
+		    '<option value="'.$category['category_id']
+		      .'" '.(($selected == $category['category_id']) ? 'selected' : '').'> '.$category['category_name'].' 
+		      </option>';
+		  endforeach; echo'						
     </select>
     <input type="search" name="search_bar" id="search_bar" placeholder="search" value=""/>	
      </form>							
@@ -18,7 +20,8 @@ echo '
   <h4> ITEMS FOUND </h4>
   <table>  
   <thead>					   	
-		 <tr>									
+		 <tr>
+		  <th>SERIAL</td>									
       <th>NAME</th>																			
 			<th>PRICE</th>																			
 			<th>ADD</th>																																					
@@ -31,6 +34,7 @@ echo '
  		  <form action="" method="POST">
 		  <tr>
 			 <input type="number" name="id" hidden value="'. $item['item_id'].'"></input>
+       <td>'. $item['item_id'].'</td>			 
 			 <td>'. $item['item_name'].'</td>
 			 <td>'. $item['item_price'].'</td>
 			 <td><button type="submit" id="edit" name="add" value="add">+</input></td>
