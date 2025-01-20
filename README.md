@@ -1,4 +1,4 @@
-# summary
+# Summary
 ## pos_web
 ![home screen](https://github.com/Javanoo/pos_web/blob/main/pos1.png)
 This was created to be a playground for all things webdev and related technologies,<br> primary focusing on structured programming and php. 
@@ -14,7 +14,7 @@ The whole idea here is to create a web based stripped down Point of Sale System 
 
 Some of these features can be grouped into the same category or can be left as is to help keep the project "modular". May have to have separate trees for each one to that end.
 
-# update
+# Update
 ## Beta 0.0.1
 As of now the application is available in beta versiob, very buggy and <br> user-feedback is required for improvements and the so-to-come bug fixes.
 None the less, give it a try and tell us what you think.
