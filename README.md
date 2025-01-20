@@ -1,5 +1,6 @@
 # summary
 ## pos_web
+![home screen](https://github.com/Javanoo/pos_web/blob/main/pos1.png)
 This was created to be a playground for all things webdev and related technologies,<br> primary focusing on structured programming and php. 
 
 The whole idea here is to create a web based stripped down Point of Sale System with, at the very least, the following features
@@ -22,7 +23,6 @@ but soon the administrator module will be added to allow admin manage the app co
 use phpMyAdmin to administer the back-end, e.g. adding new products, removing and the likes.
 
 ## screenshots
-![home screen](https://github.com/Javanoo/pos_web/blob/main/pos1.png)
 ![home screen](https://github.com/Javanoo/pos_web/blob/main/pos2.png)
 ![home screen](https://github.com/Javanoo/pos_web/blob/main/pos3.png)
 
