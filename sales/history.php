@@ -15,7 +15,7 @@
       if($dates != null)
 		  foreach ($dates as $date): echo 
 		    '<option value="'.$date['date_id']
-		      .'" '.(($selected == $date['date_id']) ? 'selected' :
+		      .'" '.(($selected_start_date == $date['date_id']) ? 'selected' :
 		         '').'> '.$date['date_name'].' 
 		      </option>';
 		  endforeach; echo'						
@@ -26,7 +26,7 @@
       if($dates != null)
 		  foreach ($dates as $date): echo 
 		    '<option value="'.$date['date_id']
-		      .'" '.(($selected == $date['date_id']) ? 'selected' : 
+		      .'" '.(($selected_end_date == $date['date_id']) ? 'selected' : 
 		      '').'> '.$date['date_name'].' 
 		      </option>';
 		  endforeach; echo'						
@@ -37,14 +37,14 @@
       if($cashiers != null)
 		  foreach ($cashiers as $cashier): echo 
 		    '<option value="'.$cashier['cashier_id']
-		      .'" '.(($selected == $cashier['cashier_id']) ? 'selected' :
+		      .'" '.(($selected_cashier == $cashier['cashier_id']) ? 'selected' :
 		       '').'> '.$cashier['cashier_name'].' 
 		      </option>';
 		  endforeach; echo'						
     </select>
     <input type="search" name="search_bar" title="item" id="search_bar" 
     placeholder="item name" value=""/>
-    <button type="submit"> go </button> 
+    <button type="submit" name="search" value="on"> go </button> 
   </form>
   </section>
   <section id="history_table">
