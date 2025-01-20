@@ -19,41 +19,42 @@
         $con = connecttodb("localhost", "pos_shop", "root", "");		    
 		      
 		    if(isset($_GET['history']) && $_GET['history'] == 'on'){
-          $status1 = "";
-          $status2 = "active";
-          $status3 = "";
-          $status4 = "";
+          $status1 = '"inactive"';
+          $status2 = '"active"';
+          $status3 = '"inactive"';
+          $status4 = '"inactive"';
           include '../includes/nav.inc.php';
           
           $dates = get_dates();
           $cashiers = get_cashiers();
           
-          
-          $selected = 1;
-          $selected_start_date = 0;
-          $selected_end_date = 0;
-          $selected_cashier = 0;
           $history = null;
           if(isset($_POST['search']) && $_POST['search'] == 'on'){
-            $history = get_filtered_history();          
+            $history = get_history( $_POST['start_date'], $_POST['end_date'], $_POST['cashier_id'], $_POST['search_bar'],);
+            $selected_start_date = $_POST['start_date'];
+            $selected_end_date = $_POST['end_date'];
+            $selected_cashier = $_POST['cashier_id'];          
           }else {
-            $history = get_history();          
+            $history = get_history(null, null, null, null);
+            $selected_start_date = 0;
+            $selected_end_date = 0;
+            $selected_cashier = 0;          
           }
           include 'history.php';  	            
 		     }else if(isset($_GET['settings']) && $_GET['settings'] == 'on'){
-		      $status1 = "";
-          $status2 = "";
-          $status3 = "active";
-          $status4 = "";
+		      $status1 = '"inactive"';
+          $status2 = '"inactive"';
+          $status3 = '"active"';
+          $status4 = '"inactive"';
           include '../includes/nav.inc.php';
 		     }else if(isset($_GET['logout']) && $_GET['logout'] == 'on'){
 		      echo "logging out....";
           logout();
          }else{
-          $status1 = "active";
-          $status2 = "";
-          $status3 = "";
-          $status4 = "";
+          $status1 = '"active"';
+          $status2 = '"inactive"';
+          $status3 = '"inactive"';
+          $status4 = '"inactive"';
           
           $charge = 0.0;
           $items_in_cart = get_items_in_cart($con);          
