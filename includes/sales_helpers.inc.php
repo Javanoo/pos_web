@@ -252,7 +252,7 @@ function get_dates(){
    }
 }
 
-function get_history() {
+function get_history($start_date, $end_date, $cashier, $key) {
  global $con;  
  try{
   $sql = 'SELECT history.trans_id, history.item_price, 
@@ -261,6 +261,46 @@ function get_history() {
           FROM history INNER JOIN clients ON 
           history.cashier_id = clients.id 
           INNER JOIN items ON history.item_id = items.item_id';
+    //filter chain
+    //process 1      
+    if(isset($start_date) && $start_date != '0'){
+        $sql .= ' WHERE entry_id >="'.$start_date.'"';           
+    }
+    
+     //process 2
+    if(isset($start_date) && isset($end_date) && $end_date >= $start_date) {
+      $sql .= ' AND entry_id <="'.$end_date.'"';   
+    }elseif((!isset($start_date) || $start_date == '0') 
+            && isset($end_date) && $end_date != '0') {
+      $sql .= ' WHERE entry_id <="'.$end_date.'"';    
+    }else { /* do nothin */}
+    
+     //process 3
+    if(((isset($start_date) && $start_date != '0') ||
+          (isset($end_date) && $end_date != '0')) &&  
+          isset($cashier) && $cashier != '0'){
+          $sql .= ' AND cashier_id='.$cashier;
+    }elseif((!isset($start_date) || $start_date == '0') &&
+          (!isset($end_date) || $end_date == '0') && 
+          isset($cashier) && $cashier != '0') {
+       $sql .= ' WHERE cashier_id='.$cashier;   
+    }else {/* do not add */}
+    
+     //process 4
+     // end of filter chain process
+    if((((isset($start_date) && $start_date != '0') ||
+          (isset($end_date) && $end_date != '0')) ||  
+          (isset($cashier) && $cashier != '0')) && 
+          (isset($key) && $key != '')) {
+          $sql .= ' AND items.item_name Like "%'.$key.'%"';
+    }elseif((!isset($start_date) || $start_date == '0') &&
+          (!isset($end_date) || $end_date == '0') && 
+          (!isset($cashier) || $cashier != '0') && 
+          (isset($key) && $key != '')) {
+       $sql .= ' WHERE items.item_name Like "%'.$key.'%"';   
+    }else {/* do not add */}
+      
+  $sql .= ' ORDER BY trans_id ASC';
   $pdo = $con->query($sql);  
   $found_items = null;
         
@@ -276,7 +316,7 @@ function get_history() {
 
    return $found_items == null ? null : $found_items;
    }catch(PDOException $e){
-     report_error($e);
+    report_error($e);
  } 
 }
  ?>
