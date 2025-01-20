@@ -18,9 +18,11 @@ Some of these features can be grouped into the same category or can be left as i
 ## Beta 0.0.1
 As of now the application is available in beta version, very buggy and <br> user-feedback is required for improvements and the so-to-come bug fixes.
 None the less, give it a try and tell us what you think.<br>
-This beta version only has one module of the two required modules, the sales module.
-but soon the administrator module will be added to allow admin manage the app conveniently, as for now,
+
+This beta version only has one module of the two required modules, the sales module.<br>
+but soon the administrator module will be added to allow admin manage the app conveniently,<br> as for now,
 use phpMyAdmin to administer the back-end, e.g. adding new products, removing and the likes.
+
 The sales module contains;
   1. sales page (main page/transaction page)
   2. history page (sales history)
