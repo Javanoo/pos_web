@@ -21,6 +21,8 @@ This beta version only has one module of the two required modules, the sales mod
 but soon the administrator module will be added to allow admin manage the app conveniently, as for now,
 use phpMyAdmin to administer the back-end, e.g. adding new products, removing and the likes.
 
+## screenshots
+
 
 ## Installation & Try-Out
 Note: this app has been or is being tested with php version 8.0, using firefox run on a linux.
