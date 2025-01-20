@@ -22,6 +22,9 @@ but soon the administrator module will be added to allow admin manage the app co
 use phpMyAdmin to administer the back-end, e.g. adding new products, removing and the likes.
 
 ## screenshots
+![home screen](https://github.com/Javanoo/pos_web/edit/main/pos1.png)
+![home screen](https://github.com/Javanoo/pos_web/edit/main/pos2.png)
+![home screen](https://github.com/Javanoo/pos_web/edit/main/pos3.png)
 
 
 ## Installation & Try-Out
