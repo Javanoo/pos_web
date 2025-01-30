@@ -37,7 +37,7 @@ echo '
        <td>'. $item['item_id'].'</td>			 
 			 <td>'. $item['item_name'].'</td>
 			 <td>'. $item['item_price'].'</td>
-			 <td><button type="submit" id="edit" name="add" value="add">+</input></td>
+			 <td><button type="submit" id="edit" name="add" value="add">+</button></td>
 			</tr>
       </form>			
 			';
