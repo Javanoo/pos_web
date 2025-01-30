@@ -1,5 +1,8 @@
 <?php
 
+/**
+* cancel any transact thats in progress
+*/
 function cancel_transaction(){
   global $con;
   try{
