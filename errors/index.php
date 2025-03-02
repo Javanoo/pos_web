@@ -2,6 +2,7 @@
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8"/>
+		<meta name="author" content="Matthews Offen">
 		<title>pos : oops</title>	
 	</head>
 	<body>
